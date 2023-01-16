@@ -14,8 +14,8 @@ import (
 )
 
 const (
-	DelayCallSeconds = 1
-	MaxSearchResults = 5
+	DelayCallMillisSeconds = 100
+	MaxSearchResults       = 5
 )
 
 var SearchCmd = &cobra.Command{
@@ -87,7 +87,7 @@ func SearchCmdRun(cmd *cobra.Command, args []string) error {
 		}
 
 		printResults(p.Name, blobs, costTimeDuration)
-		time.Sleep(DelayCallSeconds * time.Second)
+		time.Sleep(DelayCallMillisSeconds * time.Second)
 	}
 	return nil
 }
