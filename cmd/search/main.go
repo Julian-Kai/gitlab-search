@@ -64,31 +64,31 @@ func SearchCmdRun(cmd *cobra.Command, args []string) error {
 		log.Fatalf("failed to create gitlab client: %v", err)
 	}
 
-	// // get groups
-	// groupIDs, err := getGroups(svc)
-	// if err != nil {
-	// 	log.Fatalf("failed to get groups: %v", err)
-	// 	return err
-	// }
-	//
-	// // get projects
-	// projects, err := getProjects(svc, groupIDs)
-	// if err != nil {
-	// 	log.Fatalf("failed to get projects: %v", err)
-	// 	return err
-	// }
-
-	// do search
-	// for _, p := range projects {
-	blobs, costTimeDuration, err := svc.Search(4, keyword, MaxSearchResults+1)
+	// get groups
+	groupIDs, err := getGroups(svc)
 	if err != nil {
-		log.Fatalf("failed to search keyword: %v", err)
+		log.Fatalf("failed to get groups: %v", err)
 		return err
 	}
 
-	printResults("police-pro", blobs, costTimeDuration)
-	time.Sleep(DelayCallSeconds * time.Second)
-	// }
+	// get projects
+	projects, err := getProjects(svc, groupIDs)
+	if err != nil {
+		log.Fatalf("failed to get projects: %v", err)
+		return err
+	}
+
+	// do search
+	for _, p := range projects {
+		blobs, costTimeDuration, err := svc.Search(p.ID, keyword, MaxSearchResults+1)
+		if err != nil {
+			log.Fatalf("failed to search keyword: %v", err)
+			return err
+		}
+
+		printResults(p.Name, blobs, costTimeDuration)
+		time.Sleep(DelayCallSeconds * time.Second)
+	}
 	return nil
 }
 
