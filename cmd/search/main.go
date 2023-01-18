@@ -87,7 +87,7 @@ func SearchCmdRun(cmd *cobra.Command, args []string) error {
 		}
 
 		printResults(p.Name, blobs, costTimeDuration)
-		time.Sleep(DelayCallMillisSeconds * time.Second)
+		time.Sleep(DelayCallMillisSeconds * time.Millisecond)
 	}
 	return nil
 }
